@@ -1,4 +1,4 @@
-package com.jenkins-pipeline-magic
+package com.jenkinspipelinemagic
 
 import java.text.SimpleDateFormat
 
