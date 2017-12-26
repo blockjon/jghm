@@ -73,7 +73,7 @@ def setShaStatus(sha, sshUrl, description, context="default", link=null, state="
  *             specific SHA: http://ci.example.com/user/repo/build/sha
  * @return Long Milliseconds duration of the routine
  */
-def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
+def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link=null) {
   def descriptionPrefix, millisDiff, duration, status
   def errToThrow
   def timeStart = new Datetime()
