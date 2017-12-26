@@ -42,7 +42,7 @@ class JenkinsHelper implements Serializable {
     if (!hostname) {
       hostname = Hudson.instance.getRootUrl()
     }
-    return "https://${hostname}/blue/organizations/jenkins/${jobName}/detail/${jobName}/${buildId}/pipeline"
+    return "${hostname}blue/organizations/jenkins/${jobName}/detail/${jobName}/${buildId}/pipeline"
   }
 
   // -----------------------------------------------------------------
