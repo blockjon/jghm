@@ -1,6 +1,3 @@
-# Requirements
-The following are required for this library to fully work.
-
 ### GitHub API Key Credential
 
 The GitHub.groovy module allows you to send status updates to
@@ -18,15 +15,8 @@ to your GitHub repository.
 
 The recommended approach is to create a Jenkins machine user used 
 for cloning source code to the Jenkins slaves. After you generate 
-the rsa key pair with something like `ssh-keygen -t rsa`, you then 
-propagate the private key to each of the Jenkins slaves with the 
-script below, and then you register the public key in your Jenkins
-machine user's public keys. Finally, be sure you have granted permission
-for your machine user to pull and push from your GitHub repository.
-
-The following script can be used to propagate the private key to all
-of your Jenkins slaves:
-
-```
-FOO
-```
+the rsa key pair with something like `ssh-keygen -t rsa`, you then
+register the private key in the Jenkins server with the name 
+'GITHUB_MACHINE_USER_PRIVATE_KEY'. Finally, you register the public 
+key in your GitHubu machine user's account and be sure that user has
+write access to your target repository.

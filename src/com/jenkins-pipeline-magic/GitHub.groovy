@@ -4,6 +4,23 @@ import com.jenkins-pipeline-magic.DateTime
 import com.jenkins-pipeline-magic.Http
 
 /**
+ * Ensure the latest private key used to pull source code from repos
+ * is installed into the Jenkins host.
+ */
+def ensurePrivateKeyCurrent(credentialId="GITHUB_MACHINE_USER_PRIVATE_KEY") {
+  withCredentials([string(credentialsId: 'GITHUB_MACHINE_USER_PRIVATE_KEY', variable: 'key')]) {
+  def idRsaFile = "/home/jenkins/.ssh/id_rsa"
+  sh """|#!/bin/bash
+        |cat << "EOF" > ${idRsaFile}
+        |${key}
+        |EOF
+        |chmod 400 ${idRsaFile}
+        |chown jenkins.jenkins ${idRsaFile}
+        |""".stripMargin()
+  }
+}
+
+/**
  * Set a status on a GitHub SHA
  *
  * This works by invoking the GitHub status API:
@@ -76,7 +93,9 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
   def descriptionPrefix, millisDiff, duration, status, startMillis
   def errToThrow
   def timeStart = new DateTime()
-  node('slave') {
+  def universalNodeName = 'slave'
+  ensurePrivateKeyCurrent()
+  node(universalNodeName) {
     sendStatusToGitHub(
           sha, 
           sshUrl, 
@@ -100,7 +119,7 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
       if (status == "failure") {
           descriptionPrefix = "Failed"
       }
-      node('slave') {
+      node(universalNodeName) {
           sendStatusToGitHub(
               sha, 
               sshUrl, 
@@ -112,7 +131,7 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
       }
   }
   if (status != "success") {
-      println "Time to throw an error..."
+      println "doClosureWithStatus detected an exception. Throwing it now..."
       throw errToThrow
   }
   return millisDiff
