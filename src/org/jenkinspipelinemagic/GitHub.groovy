@@ -92,7 +92,7 @@ def setShaStatus(sha, sshUrl, description, context="default", link=null, state="
 def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
   def descriptionPrefix, millisDiff, duration, status
   def errToThrow
-  def timeStart = new DateTime()
+  def timeStart = new Datetime()
   def universalNodeName = 'slave'
   ensurePrivateKeyCurrent()
   node(universalNodeName) {
