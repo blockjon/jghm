@@ -20,3 +20,8 @@ register the private key in the Jenkins server with the name
 'GITHUB_MACHINE_USER_PRIVATE_KEY'. Finally, you register the public 
 key in your GitHubu machine user's account and be sure that user has
 write access to your target repository.
+
+# Install the ssh agent plugin. This seems essential in checking out
+# code onto the slaves.
+
+# Install blue ocean plugin.
