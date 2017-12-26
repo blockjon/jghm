@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 
 /**
  * Return the current time formatted
- *
+ * x
  * Optionally add some number of minutes to the time 
  * generated with minutesOffset.
  *
