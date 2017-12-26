@@ -2,6 +2,7 @@ package org.jenkinspipelinemagic
 
 import org.jenkinspipelinemagic.Datetime
 import org.jenkinspipelinemagic.Http
+import org.jenkinspipelinemagic.JenkinsHelper
 
 /**
  * Set a status on a GitHub SHA
@@ -77,6 +78,9 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
   def errToThrow
   def timeStart = new Datetime()
   def universalNodeName = 'slave'
+  if (link == null) {
+    link = JenkinsHelper.instance.getBlueOceanJobUrl()
+  }
   
   node(universalNodeName) {
     setShaStatus(
