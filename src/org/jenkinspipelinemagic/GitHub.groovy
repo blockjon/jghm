@@ -1,6 +1,6 @@
 package org.jenkinspipelinemagic
 
-import org.jenkinspipelinemagic.DateTime
+import org.jenkinspipelinemagic.Datetime
 import org.jenkinspipelinemagic.Http
 
 /**
@@ -90,7 +90,7 @@ def setShaStatus(sha, sshUrl, description, context="default", link=null, state="
  * @return Long Milliseconds duration of the routine
  */
 def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
-  def descriptionPrefix, millisDiff, duration, status, startMillis
+  def descriptionPrefix, millisDiff, duration, status
   def errToThrow
   def timeStart = new DateTime()
   def universalNodeName = 'slave'
@@ -164,7 +164,7 @@ def describeGitUrlParts(sshUrl) {
  *					  If left null, the WORKSPACE directory is used.
  */
 def fastCheckoutScm(sshUrl, gitRef, destination=null) {
-  def destination, parts, projectsDir
+  def parts, projectsDir
   if (!destination) {
     destination = "${WORKSPACE}"
   } else if (!destination.startsWith('/')) {
