@@ -79,9 +79,9 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
   def timeStart = new Datetime()
   def universalNodeName = 'slave'
   if (link == null) {
-    link = JenkinsHelper.instance.getBlueOceanJobUrl()
+    def helper = JenkinsHelper.instance
+    link = helper.instance.getBlueOceanJobUrl()
   }
-  
   node(universalNodeName) {
     setShaStatus(
           sha, 
