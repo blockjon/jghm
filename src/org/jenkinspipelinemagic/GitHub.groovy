@@ -127,7 +127,7 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
  * @return Return assoc array containing account and repo values
  */
 def describeGitUrlParts(sshUrl) {
-    def parts = parts = sshUrl.replaceFirst( /.*:(.*)\.git/, '$1' ).split('/')
+    def parts = sshUrl.replaceFirst( /.*:(.*)\.git/, '$1' ).split('/')
     return [
         "account": parts[0],
         "repository": parts[1]
