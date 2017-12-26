@@ -4,23 +4,6 @@ import org.jenkinspipelinemagic.Datetime
 import org.jenkinspipelinemagic.Http
 
 /**
- * Ensure the latest private key used to pull source code from repos
- * is installed into the Jenkins host.
- */
-def ensurePrivateKeyCurrent(credentialId="GITHUB_MACHINE_USER_PRIVATE_KEY") {
-  withCredentials([string(credentialsId: 'GITHUB_MACHINE_USER_PRIVATE_KEY', variable: 'key')]) {
-  def idRsaFile = "/home/jenkins/.ssh/id_rsa"
-  sh """|#!/bin/bash
-        |cat << "EOF" > ${idRsaFile}
-        |${key}
-        |EOF
-        |chmod 400 ${idRsaFile}
-        |chown jenkins.jenkins ${idRsaFile}
-        |""".stripMargin()
-  }
-}
-
-/**
  * Set a status on a GitHub SHA
  *
  * This works by invoking the GitHub status API:
@@ -94,9 +77,9 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
   def errToThrow
   def timeStart = new Datetime()
   def universalNodeName = 'slave'
-  ensurePrivateKeyCurrent()
+  
   node(universalNodeName) {
-    sendStatusToGitHub(
+    setShaStatus(
           sha, 
           sshUrl, 
           "Started at ${timeStart.formatCurrentTime()}", 
@@ -120,7 +103,7 @@ def doClosureWithStatus(theClosure, sshUrl, sha, statusName, link) {
           descriptionPrefix = "Failed"
       }
       node(universalNodeName) {
-          sendStatusToGitHub(
+          setShaStatus(
               sha, 
               sshUrl, 
               "${descriptionPrefix} in ${duration}",
@@ -172,7 +155,8 @@ def fastCheckoutScm(sshUrl, gitRef, destination=null) {
   }
   parts = describeGitUrlParts(sshUrl)
   projectsDir = "/ebs/projects"
-  sh("""|#!/bin/bash
+  sshagent(["GITHUB_MACHINE_USER_PRIVATE_KEY"]) {
+    sh("""|#!/bin/bash
         |set -x
         |mkdir -p ${projectsDir}/${parts["account"]}
         |cd ${projectsDir}/${parts["account"]}
@@ -194,5 +178,6 @@ def fastCheckoutScm(sshUrl, gitRef, destination=null) {
         |git pull && git fetch --tags
         |cp -R ${projectsDir}/${parts["account"]}/${parts["repository"]}/. ${destination}
         |cd ${destination}
-        |git checkout ${gitRef}""".stripMargin())
+        |git checkout ${gitRef}""".stripMargin())  
+  }
 }
