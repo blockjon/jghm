@@ -1,4 +1,4 @@
-package org.doordash
+package org.jenkinspipelinemagic
 
 import jenkins.*
 import jenkins.model.*
