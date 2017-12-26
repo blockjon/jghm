@@ -29,6 +29,10 @@ def setShaStatus(sha, sshUrl, description, context="default", link=null, state="
   def result
   def parts = describeGitUrlParts(sshUrl)
   def http = new Http()
+  if (link == null) {
+    def helper = JenkinsHelper.instance
+    link = helper.instance.getBlueOceanJobUrl()
+  }
   withCredentials([string(credentialsId: gitHubApiKeyCredentialsId, variable: 'access_token')]) {
     url = "https://api.github.com/repos/${parts["account"]}/${parts["repository"]}/statuses/${sha}?access_token=${access_token}"
     doc = [
