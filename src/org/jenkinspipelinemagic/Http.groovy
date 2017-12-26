@@ -1,4 +1,4 @@
-package com.jenkinspipelinemagic
+package org.jenkinspipelinemagic
 
 @Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.2')
 import groovy.json.*

@@ -1,7 +1,7 @@
-package com.jenkinspipelinemagic
+package org.jenkinspipelinemagic
 
-import com.jenkinspipelinemagic.DateTime
-import com.jenkinspipelinemagic.Http
+import org.jenkinspipelinemagic.DateTime
+import org.jenkinspipelinemagic.Http
 
 /**
  * Ensure the latest private key used to pull source code from repos
